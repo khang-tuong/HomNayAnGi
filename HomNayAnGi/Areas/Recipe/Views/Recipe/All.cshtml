@@ -1,0 +1,18 @@
+﻿@using HomNayAnGi.Models.ViewModels;
+@model List<RecipeViewModel>
+@{
+    ViewBag.Title = "All";
+}
+
+<h2>All</h2>
+<table>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.id</td>
+        <td>@item.name</td>
+    </tr>
+}
+</table>
+

@@ -12,11 +12,18 @@ namespace HomNayAnGi.Models.Services
     public interface IRecipeService
     {
         RecipeViewModel GetById(int id);
+        IEnumerable<RecipeViewModel> GetAll();
     }
 
 
     public class RecipeService : BaseService, IRecipeService
     {
+        public IEnumerable<RecipeViewModel> GetAll()
+        {
+            IEnumerable<Recipe> recipes = this.Repository.GetAll<Recipe>().AsEnumerable();
+            Mapper.Initialize(cfg => cfg.CreateMap<Recipe, RecipeViewModel>());
+            return Mapper.Map<IEnumerable<Recipe>, IEnumerable<RecipeViewModel>>(recipes);
+        }
 
         public RecipeViewModel GetById(int id)
         {

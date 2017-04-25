@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using HomNayAnGi.Models.Repositories;
+using System.Data.Entity;
+using HomNayAnGi.Models.Entities;
 
 namespace HomNayAnGi.Models.Services
 {
@@ -16,7 +18,7 @@ namespace HomNayAnGi.Models.Services
             {
                 if (repository == null)
                 {
-                    repository = new Repository();
+                    repository = new Repository(new EntityManager());
                 }
                 return this.repository;
             }

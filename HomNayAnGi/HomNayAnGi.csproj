@@ -210,6 +210,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Areas\Recipe\Controllers\RecipeController.cs" />
+    <Compile Include="Areas\Recipe\RecipeAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -286,8 +288,8 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Repositories\UnitOfWork.cs" />
-    <Compile Include="Models\Repositories\RecipeRepository.cs" />
     <Compile Include="Models\Repositories\Repository.cs" />
+    <Compile Include="Models\Services\BaseService.cs" />
     <Compile Include="Models\Services\RecipeService.cs" />
     <Compile Include="Models\ViewModels\RecipeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -339,6 +341,10 @@
     <Content Include="Models\Entities\EntityManager.edmx.diagram">
       <DependentUpon>EntityManager.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Recipe\Views\web.config" />
+    <Content Include="Areas\Recipe\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Recipe\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Recipe\Views\Recipe\All.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -368,6 +374,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Recipe\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

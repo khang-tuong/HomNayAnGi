@@ -33,6 +33,20 @@ namespace HomNayAnGi.Models.Repositories
         private DbContext context;
         private IUnitOfWork unitOfWork;
 
+        public Repository(DbContext contextObj)
+        {
+            if (contextObj == null)
+                throw new ArgumentNullException("context");
+            this.context = contextObj;
+        }
+
+        public Repository(ObjectContext contextObj)
+        {
+            if (contextObj == null)
+                throw new ArgumentNullException("context");
+            this.context = new DbContext(contextObj, true);
+        }
+
         public IUnitOfWork UnitOfWork
         {
             get
@@ -141,7 +155,7 @@ namespace HomNayAnGi.Models.Repositories
                 .GetEntityContainer(((IObjectContextAdapter)this.context).
                     ObjectContext.DefaultContainerName,
                     DataSpace.CSpace)
-                .BaseEntitySets.Where(bes => bes.ElementType.Name == typeof(TEntity).Name).First().Name;
+                .BaseEntitySets.Where(bes => bes.ElementType.Name == typeof(TEntity).Name).FirstOrDefault().Name;
             return string.Format("{0}.{1}",
             ((IObjectContextAdapter)this.context).ObjectContext.DefaultContainerName,
                 entitySetName);
