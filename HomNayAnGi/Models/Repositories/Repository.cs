@@ -65,7 +65,9 @@ namespace HomNayAnGi.Models.Repositories
             {
                 throw new ArgumentNullException("entity");
             }
-            return this.context.Set<TEntity>().Add(entity);
+            entity = this.context.Set<TEntity>().Add(entity);
+            this.context.SaveChanges();
+            return entity;
         }
 
         public TEntity Delete<TEntity>(TEntity entity) where TEntity : class
@@ -74,7 +76,9 @@ namespace HomNayAnGi.Models.Repositories
             {
                 throw new ArgumentNullException("entity");
             }
-            return this.context.Set<TEntity>().Remove(entity);
+            entity = this.context.Set<TEntity>().Remove(entity);
+            this.context.SaveChanges();
+            return entity;
         }
 
         public void Dispose()

@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create dish</h2>
+<a href="@Url.Action("Index", "Dish")">Quay về</a>
+<form method="post" action="@Url.Action("CreateDish", "Dish")">
+    <label>Tên</label>
+    <input type="text" name="name" /><br/>
+    <label>Giới thiệu sơ nét</label>
+    <textarea name="overview"></textarea>
+    <input type="submit" value="Xong"/>
+</form>
+

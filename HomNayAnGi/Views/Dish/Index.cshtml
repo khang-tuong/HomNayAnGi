@@ -1,0 +1,14 @@
+﻿@model IEnumerable<HomNayAnGi.Models.ViewModels.DishViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<a href="@Url.Action("Create", "Dish")">Tạo món mới</a>
+
+@foreach (var item in Model)
+{
+    <h3>@item.name</h3>
+    <p>@item.overview</p>
+    <p></p>
+}
+

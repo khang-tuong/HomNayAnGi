@@ -4,22 +4,23 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using HomNayAnGi.Models.Services;
+using HomNayAnGi.Models.ViewModels;
 
-namespace HomNayAnGi.Areas.Recipe.Controllers
+namespace HomNayAnGi.Controllers
 {
     public class RecipeController : Controller
     {
-        // GET: Recipe/Recipe
+        // GET: Recipe
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult All()
+        public ActionResult Find(int id)
         {
             IRecipeService service = new RecipeService();
-            var recipes = service.GetAll().ToList();
-            return View(recipes);
+            RecipeViewModel recipe = service.GetById(id);
+            return View(recipe);
         }
     }
 }
