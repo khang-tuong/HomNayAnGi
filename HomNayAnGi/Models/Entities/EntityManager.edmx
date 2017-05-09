@@ -4,12 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HomNayAnGiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HomNayAnGiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Account">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="fullname" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="address" Type="nvarchar" MaxLength="200" />
           <Property Name="rating" Type="float" Nullable="false" />
@@ -144,17 +144,18 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="authorId" Type="int" Nullable="false" />
           <Property Name="dishId" Type="int" Nullable="false" />
-          <Property Name="status" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="status" Type="int" Nullable="false" />
           <Property Name="rating" Type="float" Nullable="false" />
           <Property Name="rateQuantity" Type="int" Nullable="false" />
           <Property Name="viewQuantity" Type="int" Nullable="false" />
           <Property Name="dateCreated" Type="datetime" Nullable="false" />
-          <Property Name="type" Type="varchar" MaxLength="16" />
+          <Property Name="type" Type="int" />
           <Property Name="price" Type="money" Nullable="false" />
           <Property Name="dateApproved" Type="datetime" />
+          <Property Name="seoName" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -172,6 +173,7 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="content" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="recipeId" Type="int" Nullable="false" />
+          <Property Name="order" Type="int" />
         </EntityType>
         <EntityType Name="Unit">
           <Key>
@@ -549,8 +551,7 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
             <End Role="Step" EntitySet="Step" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HomNayAnGiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -571,7 +572,7 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
           <NavigationProperty Name="Payments" Relationship="Self.FK_Payment_Account" FromRole="Account" ToRole="Payment" />
           <NavigationProperty Name="Payments1" Relationship="Self.FK_Payment_Account1" FromRole="Account" ToRole="Payment" />
           <NavigationProperty Name="Posts" Relationship="Self.FK_Post_Account" FromRole="Account" ToRole="Post" />
-          <NavigationProperty Name="Recipes" Relationship="Self.FK_Recipe_Account" FromRole="Account" ToRole="Recipe" />
+          <NavigationProperty Name="Recipes" Relationship="HomNayAnGiModel.FK_Recipe_Account" FromRole="Account" ToRole="Recipe" />
         </EntityType>
         <EntityType Name="AspNetRole">
           <Key>
@@ -634,7 +635,7 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
           <Property Name="postId" Type="Int32" />
           <NavigationProperty Name="Account" Relationship="Self.FK_Comment_Account" FromRole="Comment" ToRole="Account" />
           <NavigationProperty Name="Post" Relationship="Self.FK_Comment_Post" FromRole="Comment" ToRole="Post" />
-          <NavigationProperty Name="Recipe" Relationship="Self.FK_Comment_Recipe" FromRole="Comment" ToRole="Recipe" />
+          <NavigationProperty Name="Recipe" Relationship="HomNayAnGiModel.FK_Comment_Recipe" FromRole="Comment" ToRole="Recipe" />
         </EntityType>
         <EntityType Name="Dish">
           <Key>
@@ -643,7 +644,7 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="overview" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Recipes" Relationship="Self.FK_Recipe_Dish" FromRole="Dish" ToRole="Recipe" />
+          <NavigationProperty Name="Recipes" Relationship="HomNayAnGiModel.FK_Recipe_Dish" FromRole="Dish" ToRole="Recipe" />
         </EntityType>
         <EntityType Name="Image">
           <Key>
@@ -654,7 +655,7 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
           <Property Name="URL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="stepId" Type="Int32" />
           <NavigationProperty Name="Post" Relationship="Self.FK_Image_Post" FromRole="Image" ToRole="Post" />
-          <NavigationProperty Name="Step" Relationship="Self.FK_Image_Step" FromRole="Image" ToRole="Step" />
+          <NavigationProperty Name="Step" Relationship="HomNayAnGiModel.FK_Image_Step" FromRole="Image" ToRole="Step" />
         </EntityType>
         <EntityType Name="Ingredient">
           <Key>
@@ -665,7 +666,7 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
           <Property Name="quantity" Type="Double" Nullable="false" />
           <Property Name="materialUnitMappingId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="MaterialUnitMapping" Relationship="Self.FK_Ingredient_MaterialUnitMapping" FromRole="Ingredient" ToRole="MaterialUnitMapping" />
-          <NavigationProperty Name="Recipe" Relationship="Self.FK_Ingredient_Recipe" FromRole="Ingredient" ToRole="Recipe" />
+          <NavigationProperty Name="Recipe" Relationship="HomNayAnGiModel.FK_Ingredient_Recipe" FromRole="Ingredient" ToRole="Recipe" />
         </EntityType>
         <EntityType Name="Material">
           <Key>
@@ -698,7 +699,7 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
           <Property Name="type" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Account" Relationship="Self.FK_Payment_Account" FromRole="Payment" ToRole="Account" />
           <NavigationProperty Name="Account1" Relationship="Self.FK_Payment_Account1" FromRole="Payment" ToRole="Account" />
-          <NavigationProperty Name="Recipe" Relationship="Self.FK_Payment_Recipe" FromRole="Payment" ToRole="Recipe" />
+          <NavigationProperty Name="Recipe" Relationship="HomNayAnGiModel.FK_Payment_Recipe" FromRole="Payment" ToRole="Recipe" />
         </EntityType>
         <EntityType Name="Post">
           <Key>
@@ -710,39 +711,6 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
           <NavigationProperty Name="Account" Relationship="Self.FK_Post_Account" FromRole="Post" ToRole="Account" />
           <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_Post" FromRole="Post" ToRole="Comment" />
           <NavigationProperty Name="Images" Relationship="Self.FK_Image_Post" FromRole="Post" ToRole="Image" />
-        </EntityType>
-        <EntityType Name="Recipe">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="authorId" Type="Int32" Nullable="false" />
-          <Property Name="dishId" Type="Int32" Nullable="false" />
-          <Property Name="status" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="rating" Type="Double" Nullable="false" />
-          <Property Name="rateQuantity" Type="Int32" Nullable="false" />
-          <Property Name="viewQuantity" Type="Int32" Nullable="false" />
-          <Property Name="dateCreated" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="type" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
-          <Property Name="price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="dateApproved" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Account" Relationship="Self.FK_Recipe_Account" FromRole="Recipe" ToRole="Account" />
-          <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_Recipe" FromRole="Recipe" ToRole="Comment" />
-          <NavigationProperty Name="Dish" Relationship="Self.FK_Recipe_Dish" FromRole="Recipe" ToRole="Dish" />
-          <NavigationProperty Name="Ingredients" Relationship="Self.FK_Ingredient_Recipe" FromRole="Recipe" ToRole="Ingredient" />
-          <NavigationProperty Name="Payments" Relationship="Self.FK_Payment_Recipe" FromRole="Recipe" ToRole="Payment" />
-          <NavigationProperty Name="Steps" Relationship="Self.FK_Step_Recipe" FromRole="Recipe" ToRole="Step" />
-        </EntityType>
-        <EntityType Name="Step">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="content" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="recipeId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Images" Relationship="Self.FK_Image_Step" FromRole="Step" ToRole="Image" />
-          <NavigationProperty Name="Recipe" Relationship="Self.FK_Step_Recipe" FromRole="Step" ToRole="Recipe" />
         </EntityType>
         <EntityType Name="Unit">
           <Key>
@@ -819,18 +787,6 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Recipe_Account">
-          <End Role="Account" Type="Self.Account" Multiplicity="1" />
-          <End Role="Recipe" Type="Self.Recipe" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Recipe">
-              <PropertyRef Name="authorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -871,30 +827,6 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Comment_Recipe">
-          <End Role="Recipe" Type="Self.Recipe" Multiplicity="0..1" />
-          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Recipe">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Comment">
-              <PropertyRef Name="recipeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Recipe_Dish">
-          <End Role="Dish" Type="Self.Dish" Multiplicity="1" />
-          <End Role="Recipe" Type="Self.Recipe" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Dish">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Recipe">
-              <PropertyRef Name="dishId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Image_Post">
           <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
           <End Role="Image" Type="Self.Image" Multiplicity="*" />
@@ -907,18 +839,6 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Image_Step">
-          <End Role="Step" Type="Self.Step" Multiplicity="0..1" />
-          <End Role="Image" Type="Self.Image" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Step">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Image">
-              <PropertyRef Name="stepId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Ingredient_MaterialUnitMapping">
           <End Role="MaterialUnitMapping" Type="Self.MaterialUnitMapping" Multiplicity="1" />
           <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
@@ -928,18 +848,6 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
             </Principal>
             <Dependent Role="Ingredient">
               <PropertyRef Name="materialUnitMappingId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Ingredient_Recipe">
-          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
-          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Recipe">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Ingredient">
-              <PropertyRef Name="recipeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -967,30 +875,6 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Payment_Recipe">
-          <End Role="Recipe" Type="Self.Recipe" Multiplicity="0..1" />
-          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Recipe">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Payment">
-              <PropertyRef Name="recipeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Step_Recipe">
-          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
-          <End Role="Step" Type="Self.Step" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Recipe">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Step">
-              <PropertyRef Name="recipeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
@@ -1009,8 +893,6 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
           <EntitySet Name="MaterialUnitMappings" EntityType="Self.MaterialUnitMapping" />
           <EntitySet Name="Payments" EntityType="Self.Payment" />
           <EntitySet Name="Posts" EntityType="Self.Post" />
-          <EntitySet Name="Recipes" EntityType="Self.Recipe" />
-          <EntitySet Name="Steps" EntityType="Self.Step" />
           <EntitySet Name="Units" EntityType="Self.Unit" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
           <AssociationSet Name="FK_Account_AspNetUsers" Association="Self.FK_Account_AspNetUsers">
@@ -1033,10 +915,6 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
             <End Role="Account" EntitySet="Accounts" />
             <End Role="Post" EntitySet="Posts" />
           </AssociationSet>
-          <AssociationSet Name="FK_Recipe_Account" Association="Self.FK_Recipe_Account">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="Recipe" EntitySet="Recipes" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -1049,28 +927,12 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
             <End Role="Post" EntitySet="Posts" />
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="FK_Comment_Recipe" Association="Self.FK_Comment_Recipe">
-            <End Role="Recipe" EntitySet="Recipes" />
-            <End Role="Comment" EntitySet="Comments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Recipe_Dish" Association="Self.FK_Recipe_Dish">
-            <End Role="Dish" EntitySet="Dishes" />
-            <End Role="Recipe" EntitySet="Recipes" />
-          </AssociationSet>
           <AssociationSet Name="FK_Image_Post" Association="Self.FK_Image_Post">
             <End Role="Post" EntitySet="Posts" />
             <End Role="Image" EntitySet="Images" />
           </AssociationSet>
-          <AssociationSet Name="FK_Image_Step" Association="Self.FK_Image_Step">
-            <End Role="Step" EntitySet="Steps" />
-            <End Role="Image" EntitySet="Images" />
-          </AssociationSet>
           <AssociationSet Name="FK_Ingredient_MaterialUnitMapping" Association="Self.FK_Ingredient_MaterialUnitMapping">
             <End Role="MaterialUnitMapping" EntitySet="MaterialUnitMappings" />
-            <End Role="Ingredient" EntitySet="Ingredients" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Ingredient_Recipe" Association="Self.FK_Ingredient_Recipe">
-            <End Role="Recipe" EntitySet="Recipes" />
             <End Role="Ingredient" EntitySet="Ingredients" />
           </AssociationSet>
           <AssociationSet Name="FK_MaterialUnitMapping_Material" Association="Self.FK_MaterialUnitMapping_Material">
@@ -1081,19 +943,160 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
             <End Role="Unit" EntitySet="Units" />
             <End Role="MaterialUnitMapping" EntitySet="MaterialUnitMappings" />
           </AssociationSet>
-          <AssociationSet Name="FK_Payment_Recipe" Association="Self.FK_Payment_Recipe">
-            <End Role="Recipe" EntitySet="Recipes" />
-            <End Role="Payment" EntitySet="Payments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Step_Recipe" Association="Self.FK_Step_Recipe">
-            <End Role="Recipe" EntitySet="Recipes" />
-            <End Role="Step" EntitySet="Steps" />
-          </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="Steps" EntityType="HomNayAnGiModel.Step" />
+          <AssociationSet Name="FK_Image_Step" Association="HomNayAnGiModel.FK_Image_Step">
+            <End Role="Step" EntitySet="Steps" />
+            <End Role="Image" EntitySet="Images" />
+          </AssociationSet>
+          <EntitySet Name="Recipes" EntityType="HomNayAnGiModel.Recipe" />
+          <AssociationSet Name="FK_Recipe_Account" Association="HomNayAnGiModel.FK_Recipe_Account">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Recipe" EntitySet="Recipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Recipe" Association="HomNayAnGiModel.FK_Comment_Recipe">
+            <End Role="Recipe" EntitySet="Recipes" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipe_Dish" Association="HomNayAnGiModel.FK_Recipe_Dish">
+            <End Role="Dish" EntitySet="Dishes" />
+            <End Role="Recipe" EntitySet="Recipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ingredient_Recipe" Association="HomNayAnGiModel.FK_Ingredient_Recipe">
+            <End Role="Recipe" EntitySet="Recipes" />
+            <End Role="Ingredient" EntitySet="Ingredients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_Recipe" Association="HomNayAnGiModel.FK_Payment_Recipe">
+            <End Role="Recipe" EntitySet="Recipes" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Step_Recipe" Association="HomNayAnGiModel.FK_Step_Recipe">
+            <End Role="Recipe" EntitySet="Recipes" />
+            <End Role="Step" EntitySet="Steps" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Step">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="content" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="recipeId" Type="Int32" Nullable="false" />
+          <Property Name="order" Type="Int32" />
+          <NavigationProperty Name="Images" Relationship="HomNayAnGiModel.FK_Image_Step" FromRole="Step" ToRole="Image" />
+          <NavigationProperty Name="Recipe" Relationship="HomNayAnGiModel.FK_Step_Recipe" FromRole="Step" ToRole="Recipe" />
+        </EntityType>
+        <Association Name="FK_Image_Step">
+          <End Type="HomNayAnGiModel.Step" Role="Step" Multiplicity="0..1" />
+          <End Type="HomNayAnGiModel.Image" Role="Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Step">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Image">
+              <PropertyRef Name="stepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Recipe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="authorId" Type="Int32" Nullable="false" />
+          <Property Name="dishId" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="rating" Type="Double" Nullable="false" />
+          <Property Name="rateQuantity" Type="Int32" Nullable="false" />
+          <Property Name="viewQuantity" Type="Int32" Nullable="false" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="type" Type="Int32" />
+          <Property Name="price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="dateApproved" Type="DateTime" Precision="3" />
+          <Property Name="seoName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Account" Relationship="HomNayAnGiModel.FK_Recipe_Account" FromRole="Recipe" ToRole="Account" />
+          <NavigationProperty Name="Comments" Relationship="HomNayAnGiModel.FK_Comment_Recipe" FromRole="Recipe" ToRole="Comment" />
+          <NavigationProperty Name="Dish" Relationship="HomNayAnGiModel.FK_Recipe_Dish" FromRole="Recipe" ToRole="Dish" />
+          <NavigationProperty Name="Ingredients" Relationship="HomNayAnGiModel.FK_Ingredient_Recipe" FromRole="Recipe" ToRole="Ingredient" />
+          <NavigationProperty Name="Payments" Relationship="HomNayAnGiModel.FK_Payment_Recipe" FromRole="Recipe" ToRole="Payment" />
+          <NavigationProperty Name="Steps" Relationship="HomNayAnGiModel.FK_Step_Recipe" FromRole="Recipe" ToRole="Step" />
+        </EntityType>
+        <Association Name="FK_Recipe_Account">
+          <End Type="HomNayAnGiModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="HomNayAnGiModel.Recipe" Role="Recipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Recipe">
+              <PropertyRef Name="authorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_Recipe">
+          <End Type="HomNayAnGiModel.Recipe" Role="Recipe" Multiplicity="0..1" />
+          <End Type="HomNayAnGiModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="recipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipe_Dish">
+          <End Type="HomNayAnGiModel.Dish" Role="Dish" Multiplicity="1" />
+          <End Type="HomNayAnGiModel.Recipe" Role="Recipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dish">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Recipe">
+              <PropertyRef Name="dishId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ingredient_Recipe">
+          <End Type="HomNayAnGiModel.Recipe" Role="Recipe" Multiplicity="1" />
+          <End Type="HomNayAnGiModel.Ingredient" Role="Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="recipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_Recipe">
+          <End Type="HomNayAnGiModel.Recipe" Role="Recipe" Multiplicity="0..1" />
+          <End Type="HomNayAnGiModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="recipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Step_Recipe">
+          <End Type="HomNayAnGiModel.Recipe" Role="Recipe" Multiplicity="1" />
+          <End Type="HomNayAnGiModel.Step" Role="Step" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Step">
+              <PropertyRef Name="recipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1237,33 +1240,6 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Recipes">
-            <EntityTypeMapping TypeName="HomNayAnGiModel.Recipe">
-              <MappingFragment StoreEntitySet="Recipe">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="authorId" ColumnName="authorId" />
-                <ScalarProperty Name="dishId" ColumnName="dishId" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="rating" ColumnName="rating" />
-                <ScalarProperty Name="rateQuantity" ColumnName="rateQuantity" />
-                <ScalarProperty Name="viewQuantity" ColumnName="viewQuantity" />
-                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
-                <ScalarProperty Name="type" ColumnName="type" />
-                <ScalarProperty Name="price" ColumnName="price" />
-                <ScalarProperty Name="dateApproved" ColumnName="dateApproved" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Steps">
-            <EntityTypeMapping TypeName="HomNayAnGiModel.Step">
-              <MappingFragment StoreEntitySet="Step">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="content" ColumnName="content" />
-                <ScalarProperty Name="recipeId" ColumnName="recipeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Units">
             <EntityTypeMapping TypeName="HomNayAnGiModel.Unit">
               <MappingFragment StoreEntitySet="Unit">
@@ -1288,6 +1264,35 @@ warning 6002: The table/view 'HomNayAnGi.dbo.Role' does not have a primary key d
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Steps">
+            <EntityTypeMapping TypeName="HomNayAnGiModel.Step">
+              <MappingFragment StoreEntitySet="Step">
+                <ScalarProperty Name="order" ColumnName="order" />
+                <ScalarProperty Name="recipeId" ColumnName="recipeId" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recipes">
+            <EntityTypeMapping TypeName="HomNayAnGiModel.Recipe">
+              <MappingFragment StoreEntitySet="Recipe">
+                <ScalarProperty Name="seoName" ColumnName="seoName" />
+                <ScalarProperty Name="dateApproved" ColumnName="dateApproved" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="viewQuantity" ColumnName="viewQuantity" />
+                <ScalarProperty Name="rateQuantity" ColumnName="rateQuantity" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="dishId" ColumnName="dishId" />
+                <ScalarProperty Name="authorId" ColumnName="authorId" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

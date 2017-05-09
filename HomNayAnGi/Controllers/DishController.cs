@@ -32,5 +32,13 @@ namespace HomNayAnGi.Controllers
             return RedirectToAction("Create");
         }
 
+        [HttpPost]
+        public JsonResult GetAll()
+        {
+            IDishService service = new DishService();
+            IEnumerable<DishViewModel> dishes = service.GetAll();
+            return Json(dishes);
+        }
+
     }
 }

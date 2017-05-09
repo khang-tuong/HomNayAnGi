@@ -18,8 +18,6 @@
         <EntityTypeShape EntityType="HomNayAnGiModel.MaterialUnitMapping" Width="1.5" PointX="10.5" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HomNayAnGiModel.Payment" Width="1.5" PointX="7.5" PointY="8.5" IsExpanded="true" />
         <EntityTypeShape EntityType="HomNayAnGiModel.Post" Width="1.5" PointX="7.5" PointY="15.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="HomNayAnGiModel.Recipe" Width="1.5" PointX="10.5" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="HomNayAnGiModel.Step" Width="1.5" PointX="12.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HomNayAnGiModel.Unit" Width="1.5" PointX="8.25" PointY="18.5" IsExpanded="true" />
         <EntityTypeShape EntityType="HomNayAnGiModel.Role" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
         <AssociationConnector Association="HomNayAnGiModel.FK_Account_AspNetUsers" ManuallyRouted="false" />
@@ -27,21 +25,23 @@
         <AssociationConnector Association="HomNayAnGiModel.FK_Payment_Account" ManuallyRouted="false" />
         <AssociationConnector Association="HomNayAnGiModel.FK_Payment_Account1" ManuallyRouted="false" />
         <AssociationConnector Association="HomNayAnGiModel.FK_Post_Account" ManuallyRouted="false" />
-        <AssociationConnector Association="HomNayAnGiModel.FK_Recipe_Account" ManuallyRouted="false" />
         <AssociationConnector Association="HomNayAnGiModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="HomNayAnGiModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="HomNayAnGiModel.FK_Comment_Post" ManuallyRouted="false" />
-        <AssociationConnector Association="HomNayAnGiModel.FK_Comment_Recipe" ManuallyRouted="false" />
-        <AssociationConnector Association="HomNayAnGiModel.FK_Recipe_Dish" ManuallyRouted="false" />
         <AssociationConnector Association="HomNayAnGiModel.FK_Image_Post" ManuallyRouted="false" />
-        <AssociationConnector Association="HomNayAnGiModel.FK_Image_Step" ManuallyRouted="false" />
         <AssociationConnector Association="HomNayAnGiModel.FK_Ingredient_MaterialUnitMapping" ManuallyRouted="false" />
-        <AssociationConnector Association="HomNayAnGiModel.FK_Ingredient_Recipe" ManuallyRouted="false" />
         <AssociationConnector Association="HomNayAnGiModel.FK_MaterialUnitMapping_Material" ManuallyRouted="false" />
         <AssociationConnector Association="HomNayAnGiModel.FK_MaterialUnitMapping_Unit" ManuallyRouted="false" />
-        <AssociationConnector Association="HomNayAnGiModel.FK_Payment_Recipe" ManuallyRouted="false" />
-        <AssociationConnector Association="HomNayAnGiModel.FK_Step_Recipe" ManuallyRouted="false" />
         <AssociationConnector Association="HomNayAnGiModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="HomNayAnGiModel.Step" Width="1.5" PointX="12.75" PointY="9.875" />
+        <AssociationConnector Association="HomNayAnGiModel.FK_Image_Step" />
+        <EntityTypeShape EntityType="HomNayAnGiModel.Recipe" Width="1.5" PointX="10.5" PointY="6" />
+        <AssociationConnector Association="HomNayAnGiModel.FK_Recipe_Account" />
+        <AssociationConnector Association="HomNayAnGiModel.FK_Comment_Recipe" />
+        <AssociationConnector Association="HomNayAnGiModel.FK_Recipe_Dish" />
+        <AssociationConnector Association="HomNayAnGiModel.FK_Ingredient_Recipe" />
+        <AssociationConnector Association="HomNayAnGiModel.FK_Payment_Recipe" />
+        <AssociationConnector Association="HomNayAnGiModel.FK_Step_Recipe" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

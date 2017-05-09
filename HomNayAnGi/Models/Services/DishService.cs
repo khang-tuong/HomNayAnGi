@@ -25,9 +25,8 @@ namespace HomNayAnGi.Models.Services
 
         public IEnumerable<DishViewModel> GetAll()
         {
-            IEnumerable<Dish> dishes = this.Repository.GetAll<Dish>().AsEnumerable();
-            Mapper.Initialize(cfg => cfg.CreateMap<Dish, DishViewModel>());
-            return Mapper.Map<IEnumerable<Dish>, IEnumerable<DishViewModel>>(dishes);
+            List<Dish> dishes = this.Repository.GetAll<Dish>().ToList();
+            return Mapper.Map<List<Dish>, List<DishViewModel>>(dishes);
         }
 
     }

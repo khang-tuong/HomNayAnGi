@@ -1,0 +1,124 @@
+﻿@using HomNayAnGi.Models.Enum
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+    <label>Tên công thức</label>
+    <input type="text" name="name" id="name"/><br />
+    
+    <label>Chọn nhóm thức ăn</label>
+    <select id="select-dish"></select><br />
+
+    <label>Chọn danh sách nguyên liệu</label>
+    <select id="material"></select>
+    <select id="material-unit"></select>
+    <input type="number" id="material-quantity"/><br />
+
+    <select id="material"></select>
+    <select id="material-unit"></select>
+    <input type="number" id="material-quantity" />
+
+    <div id="all-steps">
+        <div id="step">
+            <p>Bước 1</p>
+            <textarea id="step-content"></textarea>
+        </div>
+        <div id="step">
+            <p>Bước 2</p>
+            <textarea id="step-content"></textarea>
+        </div>
+    </div>
+    <input type="button" value="Xong" onclick="submitRecipe()"/>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/models.js"></script>
+<script>
+    $(document).ready(function () {
+        loadDishes();
+        loadMaterials();
+    });
+
+    function loadDishes() {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetAll", "Dish")',
+            success: function(result){
+                var s = "";
+                for (var i = 0; i < result.length; i++) {
+                    s += "<option value='" + result[i].id + "'>" + result[i].name + "</option>";
+                }
+                $('#select-dish').html(s);
+            }
+        });
+    }
+
+    function loadMaterials(){
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetAll", "Material")',
+            success: function(result){
+                var s = "";
+                for (var i = 0; i < result.length; i++) {
+                    s += "<option value='" + result[i].id + "'>" + result[i].name + "</option>";
+                }
+                var materials = $("select[id='material']");
+                for (var i = 0; i < materials.length; i++) {
+                    $(materials[i]).html(s);
+                }
+            }
+        }).done(loadUnits);
+    }
+
+    function loadUnits(){
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetAll", "Unit")',
+            success: function(result){
+                var s = "";
+                for (var i = 0; i < result.length; i++) {
+                    s += "<option value='" + result[i].id + "'>" + result[i].name + "</option>";
+                }
+                var material_unit = $("select[id='material-unit']");
+                for (var i = 0; i < material_unit.length; i++) {
+                    $(material_unit[i]).html(s);
+                }
+            }
+        });
+    }
+
+    function submitRecipe() {
+        var steps = new Array();
+
+        var inputSteps = $("div[id='step']");
+        for (var i = 0; i < inputSteps.length; ++i) {
+            steps.push(new Step($(inputSteps[i]).find("#step-content")[0].value, i));
+        }
+
+
+        var materials = $("select[id='material']");
+        var units = $("select[id='material-unit']");
+        var quantity = $("input[id='material-quantity']");
+        var ingredients = new Array();
+        for (var i = 0; i < materials.length; ++i) {
+            ingredients.push(new Ingredient(materials[i].value, units[i].value, quantity[i].value));
+        }
+
+        $.ajax({
+            url: '@Url.Action("CreateRecipe", "Recipe")',
+            type: 'POST',
+            data: {
+                name: $("#name").val(),
+                dishId: $("#select-dish").val(),
+                price: 0,
+                type: '@((int)RecipeTypeEnum.Free)',
+                Step: steps,
+                Material: ingredients,
+
+            },
+            success: function (result) {
+
+            }
+        });
+    }
+</script>
+

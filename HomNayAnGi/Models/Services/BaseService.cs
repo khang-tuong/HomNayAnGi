@@ -34,7 +34,8 @@ namespace HomNayAnGi.Models.Services
             {
                 if ((p = destinationProps.SingleOrDefault(q => q.Name == prop.Name)) != null)
                 {
-                    p.SetValue(destination, prop.GetValue(source, null));
+                    if (p.GetType() == prop.GetType())
+                        p.SetValue(destination, prop.GetValue(source, null));
                 }
             }
 

@@ -27,14 +27,15 @@ namespace HomNayAnGi.Models.Entities
         public string name { get; set; }
         public int authorId { get; set; }
         public int dishId { get; set; }
-        public string status { get; set; }
+        public int status { get; set; }
         public double rating { get; set; }
         public int rateQuantity { get; set; }
         public int viewQuantity { get; set; }
         public System.DateTime dateCreated { get; set; }
-        public string type { get; set; }
+        public Nullable<int> type { get; set; }
         public decimal price { get; set; }
         public Nullable<System.DateTime> dateApproved { get; set; }
+        public string seoName { get; set; }
     
         public virtual Account Account { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

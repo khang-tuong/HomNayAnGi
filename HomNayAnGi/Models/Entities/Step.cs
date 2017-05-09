@@ -23,6 +23,7 @@ namespace HomNayAnGi.Models.Entities
         public int id { get; set; }
         public string content { get; set; }
         public int recipeId { get; set; }
+        public Nullable<int> order { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Image> Images { get; set; }
